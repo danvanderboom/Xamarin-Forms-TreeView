@@ -1,36 +1,31 @@
-﻿using System;
-
-using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.App;
 using Android.OS;
+using Xamarin.Forms.Platform.Android;
+using Xamarin.Forms;
+using Xamarin;
+using Android.Graphics.Drawables;
+using Android.Content.PM;
+using HighEnergy.TreeView.Demo;
 
 namespace HighEnergy.TreeView.Demo.Android
 {
-    [Activity(Label = "HighEnergy.TreeView.Demo.Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity
+    [Activity (Label = "HighEnergy.TreeView for Xamarin Forms", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : Xamarin.Forms.Platform.Android.AndroidActivity
     {
-        int count = 1;
-
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate (Bundle bundle)
         {
-            base.OnCreate(bundle);
+            base.OnCreate (bundle);
+
+            App.Init(typeof(App).Assembly);
+            Forms.Init(this, bundle);
 
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Main);
+            SetPage(BuildView());
+        }
 
-            // Get our button from the layout resource,
-            // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.myButton);
-			
-            button.Click += delegate
-            {
-                button.Text = string.Format("{0} clicks!", count++);
-            };
+        static Page BuildView()
+        {
+            return new DemoPage();
         }
     }
 }
-
-
