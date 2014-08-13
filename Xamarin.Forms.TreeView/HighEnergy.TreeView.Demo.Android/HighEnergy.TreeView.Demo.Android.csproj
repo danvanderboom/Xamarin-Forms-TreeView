@@ -82,5 +82,9 @@
       <Project>{3AA59858-4571-41AE-883C-DA8423AD4BA3}</Project>
       <Name>HighEnergy.TreeView.Demo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HighEnergy.TreeView\HighEnergy.TreeView.csproj">
+      <Project>{377D075B-88EB-4D85-B632-D1BB2A724371}</Project>
+      <Name>HighEnergy.TreeView</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

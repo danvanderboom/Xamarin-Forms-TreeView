@@ -12,7 +12,8 @@ namespace HighEnergy.TreeView.Demo
 {
     public static class App
     {
-        static Assembly _reflectionAssembly;
+        public static Assembly _reflectionAssembly;
+
         internal static readonly MethodInfo GetDependency;
 
         static App()
