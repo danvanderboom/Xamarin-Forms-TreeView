@@ -4,10 +4,10 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{3AA59858-4571-41AE-883C-DA8423AD4BA3}</ProjectGuid>
+    <ProjectGuid>{377D075B-88EB-4D85-B632-D1BB2A724371}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>HighEnergy.TreeView.Demo</RootNamespace>
-    <AssemblyName>HighEnergy.TreeView.Demo</AssemblyName>
+    <RootNamespace>HighEnergy.TreeView</RootNamespace>
+    <AssemblyName>HighEnergy.TreeView</AssemblyName>
     <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -30,7 +30,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
@@ -45,15 +44,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HighEnergy.Tree\HighEnergy.Tree.csproj">
-      <Project>{C2056A6C-CD5D-44E1-A174-3971561C8DFB}</Project>
-      <Name>HighEnergy.Tree</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HighEnergy.TreeView\HighEnergy.TreeView.csproj">
-      <Project>{377D075B-88EB-4D85-B632-D1BB2A724371}</Project>
-      <Name>HighEnergy.TreeView</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

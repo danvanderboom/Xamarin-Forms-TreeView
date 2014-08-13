@@ -109,10 +109,6 @@
       <Project>{3AA59858-4571-41AE-883C-DA8423AD4BA3}</Project>
       <Name>HighEnergy.TreeView.Demo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xamarin.Forms.TreeView\HighEnergy.TreeView.csproj">
-      <Project>{C6372592-EC46-4E99-B053-9097658DE7D4}</Project>
-      <Name>HighEnergy.TreeView</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HighEnergy.Tree\HighEnergy.Tree.csproj">
       <Project>{C2056A6C-CD5D-44E1-A174-3971561C8DFB}</Project>
       <Name>HighEnergy.Tree</Name>
