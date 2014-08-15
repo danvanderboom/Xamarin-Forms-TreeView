@@ -15,3 +15,8 @@ The goal is to support iOS, Android, and Windows Phone, but I'd like to see the 
 The Tree data structure library is PCL, and the TreeView library is PCL with a Xamarin.Forms dependency.
 
 Did I mention it's free and open source?
+
+
+CURRENT STATUS: I'm working on hierarchical data binding between TreeNode and TreeNodeView, and although I have a working solution for providing dynamic item templates, it's not The Xamarin.Forms Way but something I cooked up while getting the ideas out of my head and into the code editor as fast as possible. Now I can go back and correct that.
+
+If anyone knows some good tips on using data binding in Xamarin.Forms, drop me a line, and thanks! :)
