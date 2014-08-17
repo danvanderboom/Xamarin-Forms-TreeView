@@ -17,6 +17,8 @@ The Tree data structure library is PCL, and the TreeView library is PCL with a X
 Did I mention it's free and open source?
 
 
-CURRENT STATUS: I'm working on hierarchical data binding between TreeNode and TreeNodeView, and although I have a working solution for providing dynamic item templates, it's not The Xamarin.Forms Way but something I cooked up while getting the ideas out of my head and into the code editor as fast as possible. Now I can go back and correct that.
+[Update 8/16/2014]
 
-If anyone knows some good tips on using data binding in Xamarin.Forms, drop me a line, and thanks! :)
+Hierarchical data binding is working! Now when I say working, I mean the demo--which builds a tree data structure and then binds it to the root of a TreeView control--successfully renders the TreeView and lets you interact with it. I haven't even started testing what happens when you change the underlying model. Will it update correctly? We shall see.
+
+Although I have a working solution for providing dynamic item templates, it's not The Xamarin.Forms Way but something I cooked up while getting the ideas out of my head and into the code editor as fast as possible. But it does work and is loosely coupled from the app content itself now.
