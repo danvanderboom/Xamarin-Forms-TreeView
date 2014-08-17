@@ -1,8 +1,9 @@
 ﻿using System;
-using Xamarin.Forms;
-using HighEnergy.Collections;
+using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+using HighEnergy.Collections;
 
 namespace HighEnergy.TreeView.Demo
 {
@@ -43,7 +44,7 @@ namespace HighEnergy.TreeView.Demo
             AddNodeCommand = new Command(obj => b.ChildNodes.Add(new DemoTreeNode { Title = "Another Leaf!", Score = 0.66, IsExpanded = true }));
 
             // TODO: uncomment the next line and watch Branch A grow a new child node every 5 seconds
-            //Timer();
+            Timer();
         }
 
         async void Timer()
@@ -55,11 +56,17 @@ namespace HighEnergy.TreeView.Demo
                 if (MyTree == null)
                     return;
 
+                // TODO: pick a random node to insert a child
+                var height = MyTree.Height;
+
+                var subtreeCount = MyTree.Subtree.Count();
+                var descendantsCount = MyTree.Descendants.Count();
+
                 var BranchA = MyTree.ChildNodes[0] as DemoTreeNode;
                 if (BranchA == null)
                     return;
 
-                BranchA.ChildNodes.Add(new DemoTreeNode { Title = "New Stuff", Score = 0.25, IsExpanded = true });
+                //BranchA.ChildNodes.Add(new DemoTreeNode { Title = "New Stuff", Score = 0.25, IsExpanded = true });
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace HighEnergy.Collections
 {
@@ -109,17 +111,79 @@ namespace HighEnergy.Collections
         }
 
         // non-generic iterator for interface-based support
-        public IEnumerable Children
+        public IEnumerable<ITreeNode> Children
         {
             get
             {
-                foreach (var child in ChildNodes)
-                    yield return child;
+                foreach (ITreeNode node in ChildNodes)
+                    yield return node;
 
                 yield break;
             }
         }
 
+        public IEnumerable<ITreeNode> Descendants
+        {
+            get
+            {
+                foreach (ITreeNode node in Children)
+                {
+                    yield return node;
+
+                    foreach (ITreeNode descendant in node.Descendants)
+                        yield return descendant;
+                }
+
+                yield break;
+            }
+        }
+
+        public IEnumerable<ITreeNode> Subtree
+        {
+            get
+            {
+                yield return this;
+
+                foreach (ITreeNode node in Descendants)
+                    yield return node;
+
+                yield break;
+            }
+        }
+
+        public IEnumerable<ITreeNode> Ancestors
+        {
+            get
+            {
+                if (Parent == null)
+                    yield break;
+
+                yield return Parent;
+
+                foreach (ITreeNode node in Parent.Ancestors)
+                    yield return node;
+
+                yield break;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                //return ChildNodes.Count == 0 ? 1 : ChildNodes.Max(n => n.Height);
+
+                if (ChildNodes.Count == 0)
+                    return 1;
+
+                var maxHeight = 0;
+
+                foreach (ITreeNode node in ChildNodes)
+                    maxHeight = Math.Max(maxHeight, node.Height);
+
+                return maxHeight + 1;
+            }
+        }
 
         private T _Value;
         public T Value
@@ -144,7 +208,7 @@ namespace HighEnergy.Collections
 
         public int Depth
         {
-            get { return (Parent == null ? -1 : Parent.Depth) + 1; }
+            get { return (Parent == null ? 0 : Parent.Depth) + 1; }
         }
 
         private TreeTraversalType _DisposeTraversal = TreeTraversalType.BottomUp;
