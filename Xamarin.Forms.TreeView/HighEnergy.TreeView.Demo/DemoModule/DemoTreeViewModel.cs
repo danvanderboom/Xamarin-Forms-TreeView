@@ -18,6 +18,8 @@ namespace HighEnergy.TreeView.Demo
 
         public ICommand AddNodeCommand { protected set; get; }
 
+        static Random random = new Random(DateTime.Now.Millisecond);
+
         public DemoTreeViewModel()
         {
             MyTree = new DemoTreeNode { Title = "Root", Score = 0.5, IsExpanded = true };
@@ -43,31 +45,53 @@ namespace HighEnergy.TreeView.Demo
 
             AddNodeCommand = new Command(obj => b.ChildNodes.Add(new DemoTreeNode { Title = "Another Leaf!", Score = 0.66, IsExpanded = true }));
 
-            // TODO: uncomment the next line and watch Branch A grow a new child node every 5 seconds
+            // TODO: comment out the next line to stop the tree from growing new child nodes every few seconds
             Timer();
         }
 
         async void Timer()
         {
-            while (true)
+            // insert 6 new nodes randomly into the tree, 1 every 5 seconds
+            for (int i = 0; i < 6; i++)
             {
                 await Task.Delay(5000);
 
                 if (MyTree == null)
                     return;
 
-                // TODO: pick a random node to insert a child
-                var height = MyTree.Height;
+                // pick a random node
+                var randomIndex = random.Next(0, MyTree.Subtree.Count() - 1);
+                var node = MyTree.Subtree.Skip(randomIndex).First();
 
-                var subtreeCount = MyTree.Subtree.Count();
-                var descendantsCount = MyTree.Descendants.Count();
-
-                var BranchA = MyTree.ChildNodes[0] as DemoTreeNode;
-                if (BranchA == null)
-                    return;
-
-                //BranchA.ChildNodes.Add(new DemoTreeNode { Title = "New Stuff", Score = 0.25, IsExpanded = true });
+                (node as DemoTreeNode).ChildNodes.Add(
+                    new DemoTreeNode 
+                    { 
+                        Title = GetRandomTitle(),
+                        Score = Math.Round(random.NextDouble(), 3),
+                        IsExpanded = true
+                    });
             }
+        }
+
+        string GetRandomTitle()
+        {
+            var title = string.Empty;
+
+            var wordCount = random.Next(2, 4);
+            for (int i = 0; i < wordCount; i++)
+                title += GetRandomWord() + " ";
+
+            if (random.NextDouble() < 0.30)
+                title += random.Next(3, 99).ToString() + "!";
+
+            return title;
+        }
+
+        string GetRandomWord()
+        {
+            var words = new string[] { "bird", "hand", "dog", "fruit", "frog", "juice", "egg", "apple", "bottle", "cork", "wine", "hat", "gloves", "moon", "tree", "hair" };
+            var i = random.Next(0, words.Count() - 1);
+            return words.Skip(i).First();
         }
     }
 }
