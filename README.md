@@ -19,6 +19,8 @@ Did I mention it's free and open source?
 
 [Update 8/16/2014]
 
-Hierarchical data binding is working! Now when I say working, I mean the demo--which builds a tree data structure and then binds it to the root of a TreeView control--successfully renders the TreeView and lets you interact with it. I haven't even started testing what happens when you change the underlying model. Will it update correctly? We shall see.
+Hierarchical data binding is working! Now when I say working, I mean the demo--which builds a tree data structure and then binds it to the root of a TreeView control--successfully renders the TreeView and lets you interact with it.
+
+When you add TreeNodes to your view model, the TreeView will auto-update. If the branch being inserted into is expanded and visible (Branch A is collapsed by default in the demo), you'll see the new element pop into view.
 
 Although I have a working solution for providing dynamic item templates, it's not The Xamarin.Forms Way but something I cooked up while getting the ideas out of my head and into the code editor as fast as possible. But it does work and is loosely coupled from the app content itself now.
