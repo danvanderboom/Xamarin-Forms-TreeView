@@ -10,30 +10,33 @@
 			<ContentView BackgroundColor="Navy" HeightRequest="60" Padding="16,0">
 				<Label Text="HighEnergy.TreeView Demo" TextColor="White" Font="Bold, 24" VerticalOptions="Center"/>
 			</ContentView>
-			<ContentView VerticalOptions="FillAndExpand" BackgroundColor="#CCCCCC" Padding="8">
+			<ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
 				<ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsClippedToBounds="True">
-					<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}">
-						<highenergy:TreeNodeView>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
+<!--					<highenergy:TreeNodeView BackgroundColor="Blue">
+						<highenergy:TreeNodeView BackgroundColor="Green">
+							<highenergy:TreeNodeView BackgroundColor="Blue" HeightRequest="100"/>
+							<highenergy:TreeNodeView BackgroundColor="Teal"/>
+							<highenergy:TreeNodeView BackgroundColor="Aqua"/>
 						</highenergy:TreeNodeView>
-						<highenergy:TreeNodeView>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
+						<highenergy:TreeNodeView BackgroundColor="Yellow" IsExpanded="False">
+							<highenergy:TreeNodeView BackgroundColor="Gray"/>
+							<highenergy:TreeNodeView BackgroundColor="Black"/>
+							<highenergy:TreeNodeView BackgroundColor="Blue"/>
 						</highenergy:TreeNodeView>
-						<highenergy:TreeNodeView>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
+						<highenergy:TreeNodeView BackgroundColor="Green">
+							<highenergy:TreeNodeView BackgroundColor="Blue"/>
+							<highenergy:TreeNodeView BackgroundColor="Teal"/>
+							<highenergy:TreeNodeView BackgroundColor="Aqua"/>
 						</highenergy:TreeNodeView>
-						<highenergy:TreeNodeView>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
-							<highenergy:TreeNodeView FolderImageSource="{local:ImageResource CubesBrightColors.png}"/>
+						<highenergy:TreeNodeView BackgroundColor="Yellow" IsExpanded="False">
+							<highenergy:TreeNodeView BackgroundColor="Gray"/>
+							<highenergy:TreeNodeView BackgroundColor="Black"/>
+							<highenergy:TreeNodeView BackgroundColor="Blue"/>
 						</highenergy:TreeNodeView>
-					</highenergy:TreeNodeView>
+					</highenergy:TreeNodeView>-->
+
+
+					<local:DemoTreeView x:Name="DemoTreeRoot" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
 				</ScrollView>
 			</ContentView>
 		</StackLayout>

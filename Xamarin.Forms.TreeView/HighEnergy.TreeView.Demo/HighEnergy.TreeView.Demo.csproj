@@ -36,6 +36,12 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="MarkupExtensions\ImageResourceExtension.cs" />
+    <Compile Include="DemoModule\DemoTreeNodeCardView.xaml.cs">
+      <DependentUpon>DemoTreeCardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DemoModule\DemoTreeView.cs" />
+    <Compile Include="DemoModule\DemoTreeViewModel.cs" />
+    <Compile Include="DemoModule\DemoTreeNode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.2.2.6243\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.2.2.6243\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" />
@@ -67,10 +73,14 @@
     <EmbeddedResource Include="Resources\Images\CubesBrightColors.png">
       <LogicalName>CubesBrightColors.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="DemoModule\DemoTreeCardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="MarkupExtensions\" />
+    <Folder Include="DemoModule\" />
   </ItemGroup>
 </Project>

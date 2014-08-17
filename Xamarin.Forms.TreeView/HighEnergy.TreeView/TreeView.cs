@@ -7,8 +7,6 @@ namespace HighEnergy.Controls
 {
     public class TreeView : TreeNodeView
     {
-        public TreeView() : base()
-        {
-        }
+        public TreeView() : base() { }
     }
 }
