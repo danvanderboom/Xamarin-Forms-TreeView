@@ -53,7 +53,7 @@ namespace HighEnergy.TreeView.Demo
         {
             while (true)
             {
-                await Task.Delay(3000);
+                await Task.Delay(5000);
 
                 if (MyTree == null)
                     return;
