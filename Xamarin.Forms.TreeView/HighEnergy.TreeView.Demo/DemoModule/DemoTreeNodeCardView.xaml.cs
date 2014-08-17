@@ -32,7 +32,6 @@ namespace HighEnergy.TreeView.Demo
             }
 
             Node = BindingContext as DemoTreeNode;
-
             if (Node != null)
                 Node.PropertyChanged += (sender, e) => AdjustSpacer();
         }

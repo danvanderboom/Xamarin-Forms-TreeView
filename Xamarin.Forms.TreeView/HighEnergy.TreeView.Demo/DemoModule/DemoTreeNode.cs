@@ -28,7 +28,7 @@ namespace HighEnergy.TreeView.Demo
             set { Set("Title", ref _Title, value); }
         }
 
-        double _Score = .335;
+        double _Score = 0;
         public double Score
         {
             get { return _Score; }
@@ -45,11 +45,7 @@ namespace HighEnergy.TreeView.Demo
 
         public DemoTreeNode()
         {
-            ToggleIsExpandedCommand = new Command(
-                obj => 
-                { 
-                    IsExpanded = !IsExpanded; 
-                });
+            ToggleIsExpandedCommand = new Command(obj => IsExpanded = !IsExpanded);
         }
 
         public override string ToString()

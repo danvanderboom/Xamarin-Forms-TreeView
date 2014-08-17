@@ -1,6 +1,6 @@
 ﻿using System;
-using HighEnergy.Collections;
 using Xamarin.Forms;
+using HighEnergy.Collections;
 using System.Windows.Input;
 using System.Threading.Tasks;
 
@@ -8,8 +8,6 @@ namespace HighEnergy.TreeView.Demo
 {
     public class DemoTreeViewModel : ObservableObject
     {
-
-
         DemoTreeNode _MyTree;
         public DemoTreeNode MyTree
         {
@@ -31,6 +29,8 @@ namespace HighEnergy.TreeView.Demo
             b.ChildNodes.Add(new DemoTreeNode { Title = "Leaf B1", Score = 0.35, IsExpanded = true });
             b.ChildNodes.Add(new DemoTreeNode { Title = "Leaf B2", Score = 0.15, IsExpanded = true });
 
+            // TODO: start optimizing for performance in supporting larger trees
+
 //            var c = MyTree.ChildNodes.Add(new DemoTreeNode { Title = "Branch C", Score = 0.25, IsExpanded = true });
 //            var c1 = c.ChildNodes.Add(new DemoTreeNode { Title = "Leaf C1", Score = 0.35, IsExpanded = true });
 //            var c2 = c.ChildNodes.Add(new DemoTreeNode { Title = "Branch C2", Score = 0.15, IsExpanded = true });
@@ -40,13 +40,10 @@ namespace HighEnergy.TreeView.Demo
 //            d.ChildNodes.Add(new DemoTreeNode { Title = "Leaf D1", Score = 0.35, IsExpanded = true });
 //            d.ChildNodes.Add(new DemoTreeNode { Title = "Leaf D2", Score = 0.15, IsExpanded = true });
 
-            AddNodeCommand = new Command(
-                obj => 
-                { 
-                    b.ChildNodes.Add(new DemoTreeNode { Title = "Another Leaf!", Score = 0.66, IsExpanded = true });
-                });
+            AddNodeCommand = new Command(obj => b.ChildNodes.Add(new DemoTreeNode { Title = "Another Leaf!", Score = 0.66, IsExpanded = true }));
 
-            Timer();
+            // TODO: uncomment the next line and watch Branch A grow a new child node every 5 seconds
+            //Timer();
         }
 
         async void Timer()

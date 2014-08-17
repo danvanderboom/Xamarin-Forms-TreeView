@@ -44,8 +44,11 @@ namespace HighEnergy.Controls
             set { SetValue(IsExpandedProperty, value); }
         }
 
-
-
+        public View HeaderContent
+        {
+            get { return HeaderView.Content; }
+            set { HeaderView.Content = value; }
+        }
 
         public IEnumerable<TreeNodeView> ChildTreeNodeViews
         {
@@ -58,8 +61,6 @@ namespace HighEnergy.Controls
             }
         }
 
-
-
         protected void DetachVisualChildren()
         {
             foreach (TreeNodeView nodeView in ChildTreeNodeViews)
@@ -68,8 +69,6 @@ namespace HighEnergy.Controls
                 nodeView.ParentTreeNodeView = null;
             }
         }
-
-
 
         protected override void OnBindingContextChanged()
         {
@@ -91,8 +90,6 @@ namespace HighEnergy.Controls
             // build the new visual tree
             BuildVisualChildren();
         }
-
-
 
         Func<View> _HeaderCreationFactory;
         public Func<View> HeaderCreationFactory
@@ -163,9 +160,7 @@ namespace HighEnergy.Controls
                 HeaderContent = HeaderCreationFactory.Invoke();
         }
 
-
         // [recursive down] create item template instances, attach and layout, and set descendents until finding overrides
-//        protected void BuildVisualChildren(Func<TreeNodeView> nodeCreationFactory, Func<View> headerCreationFactory)
         protected void BuildVisualChildren()
         {
             var bindingContextNode = (ITreeNode)BindingContext;
@@ -228,10 +223,7 @@ namespace HighEnergy.Controls
                         // only set BindingContext after the node has Parent != null
                         nodeView.Key.BindingContext = nodeView.Value;
 
-
                         ChildrenStackLayout.Children.Add(nodeView.Key);
-
-
 
                         ChildrenStackLayout.SetBinding(StackLayout.IsVisibleProperty, new Binding("IsExpanded", BindingMode.OneWay));
 
@@ -247,7 +239,6 @@ namespace HighEnergy.Controls
             }
         }
 
-
         void HandleListCountChanged(object sender, PropertyChangedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(
@@ -261,24 +252,6 @@ namespace HighEnergy.Controls
                     }
                 });
         }
-
-
-
-
-
-        public View HeaderContent
-        {
-            get { return HeaderView.Content; }
-            set { HeaderView.Content = value; }
-        }
-
-
-
-
-
-
-
-        
 
         public void InitializeComponent()
         {
