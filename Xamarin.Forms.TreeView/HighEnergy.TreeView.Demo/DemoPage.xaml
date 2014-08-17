@@ -12,6 +12,10 @@
 			</ContentView>
 			<ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
 				<ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsClippedToBounds="True">
+
+					<local:DemoTreeView x:Name="DemoTreeRoot" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+				
+					<!-- TODO: get this scenario working again -->
 <!--					<highenergy:TreeNodeView BackgroundColor="Blue">
 						<highenergy:TreeNodeView BackgroundColor="Green">
 							<highenergy:TreeNodeView BackgroundColor="Blue" HeightRequest="100"/>
@@ -34,9 +38,6 @@
 							<highenergy:TreeNodeView BackgroundColor="Blue"/>
 						</highenergy:TreeNodeView>
 					</highenergy:TreeNodeView>-->
-
-
-					<local:DemoTreeView x:Name="DemoTreeRoot" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
 				</ScrollView>
 			</ContentView>
 		</StackLayout>

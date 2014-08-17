@@ -90,9 +90,22 @@ namespace HighEnergy.Collections
 //                    foreach (ITreeNode<T> node in _ChildNodes)
 //                        node.Parent = null;
 
+                if (_ChildNodes != null)
+                    _ChildNodes.PropertyChanged -= HandleChildNodeCountChange;
+
                 _ChildNodes = value;
+
+                if (_ChildNodes != null)
+                    _ChildNodes.PropertyChanged += HandleChildNodeCountChange;
+
                 OnPropertyChanged("ChildNodes");
             }
+        }
+
+        void HandleChildNodeCountChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Count")
+                OnPropertyChanged("Count");
         }
 
         // non-generic iterator for interface-based support

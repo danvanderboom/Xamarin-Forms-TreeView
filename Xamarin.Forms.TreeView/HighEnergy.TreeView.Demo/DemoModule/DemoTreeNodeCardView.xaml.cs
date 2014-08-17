@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 using HighEnergy.Collections;
+using System.ComponentModel;
 
 namespace HighEnergy.TreeView.Demo
 {
@@ -13,7 +14,7 @@ namespace HighEnergy.TreeView.Demo
         {
             InitializeComponent();
 
-            SizeChanged += (sender, e) => AdjustSpacer(Node);
+            SizeChanged += (sender, e) => AdjustSpacer();
         }
 
         protected override void OnBindingContextChanged()
@@ -24,7 +25,7 @@ namespace HighEnergy.TreeView.Demo
             if (newNode == null)
             {
                 if (Node != null)
-                    Node.PropertyChanged -= (sender, e) => AdjustSpacer(Node);
+                    Node.PropertyChanged -= (sender, e) => AdjustSpacer();
 
                 Spacer.WidthRequest = 0;
                 return;
@@ -33,12 +34,13 @@ namespace HighEnergy.TreeView.Demo
             Node = BindingContext as DemoTreeNode;
 
             if (Node != null)
-                Node.PropertyChanged += (sender, e) => AdjustSpacer(Node);
+                Node.PropertyChanged += (sender, e) => AdjustSpacer();
         }
 
-        void AdjustSpacer(DemoTreeNode node)
+        void AdjustSpacer()
         {
-            Spacer.WidthRequest = node.IndentWidth;
+            if (Node != null)
+                Spacer.WidthRequest = Node.IndentWidth;
         }
     }
 }

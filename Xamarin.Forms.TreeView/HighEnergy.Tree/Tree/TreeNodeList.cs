@@ -19,10 +19,12 @@ namespace HighEnergy.Collections
         public new ITreeNode<T> Add(ITreeNode<T> Node)
         {
             base.Add(Node);
-            OnPropertyChanged("Count");
 
             // call property setters to trigger setup and event notifications
             Node.Parent = Parent;
+
+            OnPropertyChanged("Count");
+
             return Node;
         }
 

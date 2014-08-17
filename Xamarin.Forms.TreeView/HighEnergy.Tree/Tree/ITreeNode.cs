@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 
 namespace HighEnergy.Collections
 {
@@ -13,7 +14,7 @@ namespace HighEnergy.Collections
         ITreeNodeList<T> ChildNodes { get; }
     }
 
-    public interface ITreeNode
+    public interface ITreeNode : INotifyPropertyChanged
     {
         ITreeNode ParentNode { get; }
         IEnumerable Children { get; }

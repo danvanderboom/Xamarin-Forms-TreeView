@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.ComponentModel;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using HighEnergy.Collections;
@@ -224,12 +225,18 @@ namespace HighEnergy.Controls
                     // perform the additions in a batch
                     foreach (KeyValuePair<TreeNodeView,ITreeNode> nodeView in nodeViewsToAdd)
                     {
-                        ChildrenStackLayout.Children.Add(nodeView.Key);
-
                         // only set BindingContext after the node has Parent != null
                         nodeView.Key.BindingContext = nodeView.Value;
 
+
+                        ChildrenStackLayout.Children.Add(nodeView.Key);
+
+
+
                         ChildrenStackLayout.SetBinding(StackLayout.IsVisibleProperty, new Binding("IsExpanded", BindingMode.OneWay));
+
+                        // TODO: make sure to unsubscribe elsewhere
+                        nodeView.Value.PropertyChanged += HandleListCountChanged;
                     }
                 }
                 finally
@@ -240,6 +247,20 @@ namespace HighEnergy.Controls
             }
         }
 
+
+        void HandleListCountChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(
+                () =>
+                {
+                    if (e.PropertyName == "Count")
+                    {
+                        var nodeView = ChildTreeNodeViews.Where(nv => nv.BindingContext == sender).FirstOrDefault();
+                        if (nodeView != null)
+                            nodeView.BuildVisualChildren();
+                    }
+                });
+        }
 
 
 

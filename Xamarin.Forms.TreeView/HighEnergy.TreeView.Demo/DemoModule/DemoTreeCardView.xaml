@@ -16,12 +16,14 @@
 
 			<!-- left side -->
 			<StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-				<!-- tree node indentation spacer -->
-<!--				<ContentView WidthRequest="{Binding IndentWidth}"/>-->
 				<ContentView WidthRequest="30"/>
+
+				<!-- tree node indentation spacer -->
 				<ContentView x:Name="Spacer" WidthRequest="30"/>
+
+				<!---this is a very bad way to load images, very slow, need to cache them somehow -->
 <!--				<Image Source="{local:ImageResource CubesBrightColors.png}" Aspect="AspectFit" WidthRequest="24" VerticalOptions="Center"/>-->
-				<!-- {Binding Title} -->
+
 				<Label x:Name="TitleLabel" Text="{Binding Title}" Font="Bold,20" TextColor="Black" VerticalOptions="Center"/>  
 			</StackLayout>
 
