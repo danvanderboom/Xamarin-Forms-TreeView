@@ -43,7 +43,7 @@ namespace HighEnergy.TreeView.Demo
 //            d.ChildNodes.Add(new DemoTreeNode { Title = "Leaf D1", Score = 0.35, IsExpanded = true });
 //            d.ChildNodes.Add(new DemoTreeNode { Title = "Leaf D2", Score = 0.15, IsExpanded = true });
 
-            AddNodeCommand = new Command(obj => b.ChildNodes.Add(new DemoTreeNode { Title = "Another Leaf!", Score = 0.66, IsExpanded = true }));
+            //AddNodeCommand = new Command(obj => b.ChildNodes.Add(new DemoTreeNode { Title = "Another Leaf!", Score = 0.66, IsExpanded = true }));
 
             // TODO: comment out the next line to stop the tree from growing new child nodes every few seconds
             Timer();
@@ -75,11 +75,7 @@ namespace HighEnergy.TreeView.Demo
 
         string GetRandomTitle()
         {
-            var title = string.Empty;
-
-            var wordCount = random.Next(2, 4);
-            for (int i = 0; i < wordCount; i++)
-                title += GetRandomWord() + " ";
+            var title = GetRandomAdjective() + " " + GetRandomWord() + " " + GetRandomWord() + " ";
 
             if (random.NextDouble() < 0.30)
                 title += random.Next(3, 99).ToString() + "!";
@@ -87,9 +83,17 @@ namespace HighEnergy.TreeView.Demo
             return title;
         }
 
+        string GetRandomAdjective()
+        {
+            var adjs = new string[] { "happy", "fluffy", "short", "tall", "hard", "soft", "flat", "thick", "thin", "round", "square", "rambunctious", "titillating", "merry", "fried", "limber", "bellicose", 
+                "tired", "pretentious", "moody", "comical", "severe", "flabberghasted", "opinionated", "naive" };
+            var i = random.Next(0, adjs.Count() - 1);
+            return adjs.Skip(i).First();
+        }
+
         string GetRandomWord()
         {
-            var words = new string[] { "bird", "hand", "dog", "fruit", "frog", "juice", "egg", "apple", "bottle", "cork", "wine", "hat", "gloves", "moon", "tree", "hair" };
+            var words = new string[] { "bird", "hand", "dog", "fruit", "frog", "juice", "egg", "apple", "bottle", "cork", "wine", "hat", "gloves", "moon", "tree", "hair", "house", "river", "flavor" };
             var i = random.Next(0, words.Count() - 1);
             return words.Skip(i).First();
         }
