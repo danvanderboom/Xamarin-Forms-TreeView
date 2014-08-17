@@ -18,13 +18,13 @@ namespace HighEnergy.TreeView.Demo
 
         public ICommand AddNodeCommand { protected set; get; }
 
-        static Random random = new Random(DateTime.Now.Millisecond);
+        static Random random = new Random(DateTime.Now.Millisecond + DateTime.Now.Second + DateTime.Now.Day);
 
         public DemoTreeViewModel()
         {
             MyTree = new DemoTreeNode { Title = "Root", Score = 0.5, IsExpanded = true };
 
-            var a = MyTree.ChildNodes.Add(new DemoTreeNode { Title = "Branch A", Score = 0.75, IsExpanded = false });
+            var a = MyTree.ChildNodes.Add(new DemoTreeNode { Title = "Branch A", Score = 0.75, IsExpanded = true });
             a.ChildNodes.Add(new DemoTreeNode { Title = "Leaf A1", Score = 0.85, IsExpanded = true });
             a.ChildNodes.Add(new DemoTreeNode { Title = "Leaf A2", Score = 0.65, IsExpanded = true });
 
@@ -93,7 +93,8 @@ namespace HighEnergy.TreeView.Demo
 
         string GetRandomWord()
         {
-            var words = new string[] { "bird", "hand", "dog", "fruit", "frog", "juice", "egg", "apple", "bottle", "cork", "wine", "hat", "gloves", "moon", "tree", "hair", "house", "river", "flavor" };
+            var words = new string[] { "bird", "hand", "dog", "fruit", "frog", "juice", "egg", "apple", "bottle", "cork", "wine", "hat", "glove", "moon", "tree", "hair", "house", "river", "flavor",
+                "clown", "door", "phone", "clock", "bread", "candy", "shoe", "fish", "drink" };
             var i = random.Next(0, words.Count() - 1);
             return words.Skip(i).First();
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using Xamarin.Forms;
 
 namespace HighEnergy.TreeView.Demo
 {
@@ -13,29 +13,36 @@ namespace HighEnergy.TreeView.Demo
     [Register("AppDelegate")]
     public partial class AppDelegate : UIApplicationDelegate
     {
-        // class-level declarations
         UIWindow window;
 
-        //
-        // This method is invoked when the application has loaded and is ready to run. In this
-        // method you should instantiate the window, load the UI into it and then make the window
-        // visible.
-        //
-        // You have 17 seconds to return from this method, or iOS will terminate your application.
-        //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override bool FinishedLaunching (UIApplication app, NSDictionary options)
         {
-            // create a new window instance based on the screen size
-            window = new UIWindow(UIScreen.MainScreen.Bounds);
-			
-            // If you have defined a root view controller, set it here:
-            // window.RootViewController = myViewController;
-			
-            // make the window visible
-            window.MakeKeyAndVisible();
-			
+            window = new UIWindow (UIScreen.MainScreen.Bounds);
+
+            App.Init(typeof(App).Assembly);
+            Forms.Init();
+
+            UINavigationBar.Appearance.BackgroundColor = UIColor.FromRGBA(0, 0, 0, 0);
+            UINavigationBar.Appearance.TintColor = UIColor.Blue;
+            UINavigationBar.Appearance.BarTintColor = UIColor.White;
+            UINavigationBar.Appearance.SetTitleTextAttributes(
+                new UITextAttributes
+                {
+                    TextColor = UIColor.White
+                });
+
+            window.RootViewController = BuildView();
+            window.MakeKeyAndVisible ();
+
             return true;
         }
-    }
-}
 
+        static UIViewController BuildView()
+        {
+            var root = new DemoPage();
+            var controller = root.CreateViewController();
+            return controller;
+        }
+    }
+
+}
