@@ -2,6 +2,7 @@
 using System.Linq;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Xamarin.Forms;
 using HighEnergy.Collections;
 
@@ -183,7 +184,7 @@ namespace HighEnergy.Controls
             BatchBegin();
             try
             {
-                // perform the removal in a batch
+                // perform removal in a batch
                 foreach (TreeNodeView nodeView in nodeViewsToRemove)
                     MainLayoutGrid.Children.Remove(nodeView);
             }
@@ -294,6 +295,8 @@ namespace HighEnergy.Controls
         public TreeNodeView() : base()
         {
             InitializeComponent();
+
+            Debug.WriteLine("NodeCreationFactory: new TreeNodeView");
         }
     }
 }

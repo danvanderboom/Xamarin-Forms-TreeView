@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 using HighEnergy.Collections;
+using System.Diagnostics;
 
 namespace HighEnergy.TreeView.Demo
 {
@@ -40,7 +41,10 @@ namespace HighEnergy.TreeView.Demo
             base.OnPropertyChanged(propertyName);
 
             if (propertyName == "Depth")
+            {
+                Debug.WriteLine("DemoTreeNode.Depth property changed - triggering update for IndentWidth");
                 base.OnPropertyChanged("IndentWidth");
+            }
         }
 
         public DemoTreeNode()

@@ -7,11 +7,13 @@ namespace HighEnergy.Collections
     public interface ITreeNode<T> : ITreeNode
     {
         ITreeNode<T> Root { get; }
-        ITreeNode<T> Parent { get; set; }
+
+        ITreeNode<T> Parent { get; }
+        void SetParent(ITreeNode<T> Node, bool UpdateChildNodes = true);
 
         T Value { get; set; }
 
-        ITreeNodeList<T> ChildNodes { get; }
+        TreeNodeList<T> ChildNodes { get; }
     }
 
     public interface ITreeNode : INotifyPropertyChanged
@@ -28,9 +30,17 @@ namespace HighEnergy.Collections
         // Children, Children[i].Children, ...
         IEnumerable<ITreeNode> Descendants { get; }
 
+        //void OnNodeChanged(NodeChangeType changeType, ITreeNode node);
+        //void OnParentChanged(NodeChangeType changeType, ITreeNode node);
+        void OnAncestorChanged(NodeChangeType changeType, ITreeNode node);
+        void OnDescendantChanged(NodeChangeType changeType, ITreeNode node);
+
         // distance from Root
         int Depth { get; }
+        void OnDepthChanged();
 
+        // distance from deepest descendant
         int Height { get; }
+        void OnHeightChanged();
     }
 }

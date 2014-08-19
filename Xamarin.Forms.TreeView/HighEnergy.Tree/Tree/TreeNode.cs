@@ -12,7 +12,7 @@ namespace HighEnergy.Collections
         public TreeNode()
         {
             // call property setters to trigger setup and event notifications
-            Parent = null;
+            _Parent = null;
             ChildNodes = new TreeNodeList<T>(this);
         }
 
@@ -20,7 +20,12 @@ namespace HighEnergy.Collections
         {
             // call property setters to trigger setup and event notifications
             this.Value = Value;
-            Parent = null;
+
+            _Parent = 
+                Value == null ? null 
+                : Value is ITreeNode<T> ? (Value as ITreeNode<T>).Parent
+                : null;
+
             ChildNodes = new TreeNodeList<T>(this);
         }
 
@@ -28,7 +33,7 @@ namespace HighEnergy.Collections
         {
             // call property setters to trigger setup and event notifications
             this.Value = Value;
-            this.Parent = Parent;
+            _Parent = Parent;
             ChildNodes = new TreeNodeList<T>(this);
         }
 
@@ -41,33 +46,47 @@ namespace HighEnergy.Collections
         public ITreeNode<T> Parent
         {
             get { return _Parent; }
-            set
-            {
-                if (value == _Parent)
-                    return;
+        }
 
-                OnParentChanged(_Parent, value);
-            }
+        public void SetParent(ITreeNode<T> node, bool updateChildNodes = true)
+        {
+            if (node == Parent)
+                return;
+
+            var oldParent = Parent;
+            var oldParentHeight = Parent != null ? Parent.Height : 0;
+            var oldDepth = Depth;
+
+            // if oldParent isn't null
+            // remove this node from its newly ex-parent's children
+            if (oldParent != null && oldParent.ChildNodes.Contains(this))
+                oldParent.ChildNodes.Remove(this, updateParent: false);
+
+            // update the backing field
+            _Parent = node;
+
+            // add this node to its new parent's children
+            if (updateChildNodes)
+                _Parent.ChildNodes.Add(this, updateParent: false);
+
+            // signal the old parent that it has lost this child
+            if (oldParent != null)
+                oldParent.OnDescendantChanged(NodeChangeType.ChildRemoved, this);
+
+            if (oldDepth != Depth)
+                OnDepthChanged();
+
+            // if this operation has changed the height of any parent, initiate the bubble-up height changed event
+            var newParentHeight = Parent != null ? Parent.Height : 0;
+            if (Parent != null && newParentHeight != oldParentHeight)
+                Parent.OnHeightChanged();
+
+            OnParentChanged(oldParent, Parent);
         }
 
         protected virtual void OnParentChanged(ITreeNode<T> oldValue, ITreeNode<T> newValue)
         {
-            // remember current depth
-            var oldDepth = Depth;
-
-            // remove existing parent
-            if (_Parent != null)
-                _Parent.ChildNodes.Remove(this);
-
-            // change all the old parent's children to be the new parent's children
-            if (newValue != null && !newValue.ChildNodes.Contains(this))
-                newValue.ChildNodes.Add(this);
-
-            _Parent = newValue;
             OnPropertyChanged("Parent");
-
-            if (Depth != oldDepth)
-                OnPropertyChanged("Depth");
         }
 
         // TODO: add property and event notifications that are missing from this set: DescendentsChanged, AnscestorsChanged, ChildrenChanged, ParentChanged
@@ -77,20 +96,14 @@ namespace HighEnergy.Collections
             get { return (Parent == null) ? this : Parent.Root; }
         }
 
-        private ITreeNodeList<T> _ChildNodes;
-        public ITreeNodeList<T> ChildNodes
+        private TreeNodeList<T> _ChildNodes;
+        public TreeNodeList<T> ChildNodes
         {
             get { return _ChildNodes; }
             private set
             {
                 if (value == _ChildNodes)
                     return;
-
-                // TODO: call Dispose on _ChildNodes?
-                // tell all the children they have no more parent :-(
-//                if (value != null)
-//                    foreach (ITreeNode<T> node in _ChildNodes)
-//                        node.Parent = null;
 
                 if (_ChildNodes != null)
                     _ChildNodes.PropertyChanged -= HandleChildNodeCountChange;
@@ -167,22 +180,31 @@ namespace HighEnergy.Collections
             }
         }
 
+        public virtual void OnAncestorChanged(NodeChangeType changeType, ITreeNode node)
+        {
+            foreach (ITreeNode<T> child in ChildNodes)
+                child.OnAncestorChanged(changeType, node);
+        }
+
+        public virtual void OnDescendantChanged(NodeChangeType changeType, ITreeNode node)
+        {
+            if (Parent != null)
+                Parent.OnDescendantChanged(changeType, node);
+        }
+
+        // [recurse up] descending aggregate property
         public int Height
         {
-            get
-            {
-                //return ChildNodes.Count == 0 ? 1 : ChildNodes.Max(n => n.Height);
+            get { return ChildNodes.Count == 0 ? 0 : ChildNodes.Max(n => n.Height) + 1; }
+        }
 
-                if (ChildNodes.Count == 0)
-                    return 1;
+        // [recurse down] descending-broadcasting event
+        public virtual void OnHeightChanged()
+        {
+            OnPropertyChanged("Height");
 
-                var maxHeight = 0;
-
-                foreach (ITreeNode node in ChildNodes)
-                    maxHeight = Math.Max(maxHeight, node.Height);
-
-                return maxHeight + 1;
-            }
+            foreach (ITreeNode<T> child in ChildNodes)
+                child.OnHeightChanged();
         }
 
         private T _Value;
@@ -206,13 +228,23 @@ namespace HighEnergy.Collections
             }
         }
 
+        // [recurse up] bubble up aggregate property
         public int Depth
         {
-            get { return (Parent == null ? 0 : Parent.Depth) + 1; }
+            get { return (Parent == null ? 0 : Parent.Depth + 1); }
         }
 
-        private TreeTraversalType _DisposeTraversal = TreeTraversalType.BottomUp;
-        public TreeTraversalType DisposeTraversal
+        // [recurse up] bubble up event
+        public virtual void OnDepthChanged()
+        {
+            OnPropertyChanged("Depth");
+
+            if (Parent != null)
+                Parent.OnDepthChanged();
+        }
+
+        private UpDownTraversalType _DisposeTraversal = UpDownTraversalType.BottomUp;
+        public UpDownTraversalType DisposeTraversal
         {
             get { return _DisposeTraversal; }
             set { _DisposeTraversal = value; }
@@ -224,7 +256,7 @@ namespace HighEnergy.Collections
             get { return _IsDisposed; }
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             CheckDisposed();
             OnDisposing();
@@ -232,13 +264,13 @@ namespace HighEnergy.Collections
             // clean up contained objects (in Value property)
             if (Value is IDisposable)
             {
-                if (DisposeTraversal == TreeTraversalType.BottomUp)
+                if (DisposeTraversal == UpDownTraversalType.BottomUp)
                     foreach (TreeNode<T> node in ChildNodes)
                         node.Dispose();
 
                 (Value as IDisposable).Dispose();
 
-                if (DisposeTraversal == TreeTraversalType.TopDown)
+                if (DisposeTraversal == UpDownTraversalType.TopDown)
                     foreach (TreeNode<T> node in ChildNodes)
                         node.Dispose();
             }
@@ -266,7 +298,7 @@ namespace HighEnergy.Collections
             if (Value != null)
                 Description = "[" + Value + "] ";
 
-            return Description + "Depth=" + Depth + ", Children=" + ChildNodes.Count;
+            return Description + "Depth=" + Depth + ", Height=" + Height + ", Children=" + ChildNodes.Count;
         }
     }
 }

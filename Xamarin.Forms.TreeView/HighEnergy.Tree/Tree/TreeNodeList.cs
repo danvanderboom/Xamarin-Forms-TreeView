@@ -9,23 +9,57 @@ namespace HighEnergy.Collections
     {
         public ITreeNode<T> Parent { get; set; }
 
-        public TreeNodeList(ITreeNode<T> Parent)
+        public TreeNodeList(ITreeNode<T> parent)
         {
             // call property setters to trigger setup and event notifications
-            this.Parent = Parent;
+            Parent = parent;
         }
 
-        // once you start working with collection manipulation functions like this which return the object they add... you'll hate having it any other way
-        public new ITreeNode<T> Add(ITreeNode<T> Node)
+        public new ITreeNode<T> Add(ITreeNode<T> node)
         {
-            base.Add(Node);
+            return Add(node, true);
+        }
 
-            // call property setters to trigger setup and event notifications
-            Node.Parent = Parent;
+        protected internal ITreeNode<T> Add(ITreeNode<T> node, bool updateParent)
+        {
+            if (updateParent)
+            {
+                // force Node.SetParent to coordinate the update
+                node.SetParent(Parent, UpdateChildNodes: true);
+                return node;
+            }
 
+            base.Add(node);
             OnPropertyChanged("Count");
+            return node;
+        }
 
-            return Node;
+        public new bool Remove(ITreeNode<T> node)
+        {
+            return Remove(node, true);
+        }
+
+        protected internal bool Remove(ITreeNode<T> node, bool updateParent)
+        {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
+            // if we don't have it, we can't remove it
+            if (!Contains(node))
+                return false;
+
+            if (updateParent)
+            {
+                // force Node.SetParent to coordinate the update
+                node.SetParent(null, UpdateChildNodes: false);
+
+                // we're successful if the node is no longer in the collection
+                return !Contains(node);
+            }
+
+            var result = base.Remove(node);
+            OnPropertyChanged("Count");
+            return result;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

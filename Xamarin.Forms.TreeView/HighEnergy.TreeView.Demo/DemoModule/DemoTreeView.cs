@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Xamarin.Forms;
 using HighEnergy.Controls;
 
@@ -30,7 +31,21 @@ namespace HighEnergy.TreeView.Demo
                     VerticalOptions = LayoutOptions.Start
                 };
 
+            HeaderCreationFactory = 
+                () =>
+                {
+                    var result = new DemoTreeCardView
+                    {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        VerticalOptions = LayoutOptions.Start
+                    };
+                    Debug.WriteLine("HeaderCreationFactory: new DemoTreeCardView");
+                    return result;
+                };
+
             BindingContext = ViewModel.MyTree;
+
+            ViewModel.InsertRandomNodes();
         }
     }
 }

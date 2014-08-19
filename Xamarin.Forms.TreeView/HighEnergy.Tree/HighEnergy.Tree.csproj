@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TreeTraversalType.cs" />
     <Compile Include="Tree\Tree.cs" />
     <Compile Include="Tree\TreeNode.cs" />
     <Compile Include="Tree\TreeNodeList.cs" />
@@ -39,6 +38,7 @@
     <Compile Include="Helpers\ObservableObject.cs" />
     <Compile Include="Tree\ITreeNodeList.cs" />
     <Compile Include="Tree\ITreeNode.cs" />
+    <Compile Include="Enums.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

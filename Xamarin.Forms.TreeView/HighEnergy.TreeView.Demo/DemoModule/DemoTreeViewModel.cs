@@ -42,14 +42,9 @@ namespace HighEnergy.TreeView.Demo
 //            var d = MyTree.ChildNodes.Add(new DemoTreeNode { Title = "Branch D", Score = 0.25, IsExpanded = true });
 //            d.ChildNodes.Add(new DemoTreeNode { Title = "Leaf D1", Score = 0.35, IsExpanded = true });
 //            d.ChildNodes.Add(new DemoTreeNode { Title = "Leaf D2", Score = 0.15, IsExpanded = true });
-
-            //AddNodeCommand = new Command(obj => b.ChildNodes.Add(new DemoTreeNode { Title = "Another Leaf!", Score = 0.66, IsExpanded = true }));
-
-            // TODO: comment out the next line to stop the tree from growing new child nodes every few seconds
-            Timer();
         }
 
-        async void Timer()
+        public async void InsertRandomNodes()
         {
             // insert 6 new nodes randomly into the tree, 1 every 5 seconds
             for (int i = 0; i < 6; i++)
