@@ -11,6 +11,110 @@ namespace HighEnergy.Tree.Test
     public class Test
     {
         [Test]
+        public void SingleNode()
+        {
+            var building = new Space { Name = "Science Building", SquareFeet = 30000 };
+
+            Assert.AreEqual(0, building.Height);
+            Assert.AreEqual(0, building.Depth);
+            Assert.AreEqual(0, building.Ancestors.Count());
+            Assert.AreEqual(0, building.Descendants.Count());
+            Assert.AreEqual(0, building.ChildNodes.Count());
+            Assert.IsNull(building.Parent);
+        }
+
+        [Test]
+        public void AddChildNodes()
+        {
+            var building = new Space { Name = "Science Building", SquareFeet = 30000 };
+            var storage = building.ChildNodes.Add(new Space { Name = "Storage", SquareFeet = 1200 });
+            var bin = storage.ChildNodes.Add(new Space { Name = "Bin", SquareFeet = 4 });
+
+            Assert.AreEqual(0, building.Ancestors.Count());
+            Assert.AreEqual(1, building.ChildNodes.Count());
+            Assert.AreEqual(2, building.Descendants.Count());
+            Assert.AreEqual(2, building.Height);
+            Assert.AreEqual(0, building.Depth);
+            Assert.IsNull(building.Parent);
+
+            Assert.AreEqual(1, storage.Ancestors.Count());
+            Assert.AreEqual(1, storage.ChildNodes.Count());
+            Assert.AreEqual(1, storage.Descendants.Count());
+            Assert.AreEqual(1, storage.Height);
+            Assert.AreEqual(1, storage.Depth);
+            Assert.AreSame(storage.Parent, building);
+
+            Assert.AreEqual(2, bin.Ancestors.Count());
+            Assert.AreEqual(0, bin.ChildNodes.Count());
+            Assert.AreEqual(0, bin.Descendants.Count());
+            Assert.AreEqual(0, bin.Height);
+            Assert.AreEqual(2, bin.Depth);
+            Assert.AreSame(bin.Parent, storage);
+        }
+
+        [Test]
+        public void RemoveNodeBySettingParentToNull()
+        {
+            var building = new Space { Name = "Science Building", SquareFeet = 30000 };
+            var storage = building.ChildNodes.Add(new Space { Name = "Storage", SquareFeet = 1200 });
+            var bin = storage.ChildNodes.Add(new Space { Name = "Bin", SquareFeet = 4 });
+
+            bin.Parent = null;
+
+            Assert.AreEqual(0, building.Ancestors.Count());
+            Assert.AreEqual(1, building.ChildNodes.Count());
+            Assert.AreEqual(1, building.Descendants.Count());
+            Assert.AreEqual(1, building.Height);
+            Assert.AreEqual(0, building.Depth);
+            Assert.IsNull(building.Parent);
+
+            Assert.AreEqual(1, storage.Ancestors.Count());
+            Assert.AreEqual(0, storage.ChildNodes.Count());
+            Assert.AreEqual(0, storage.Descendants.Count());
+            Assert.AreEqual(0, storage.Height);
+            Assert.AreEqual(1, storage.Depth);
+            Assert.AreSame(storage.Parent, building);
+
+            Assert.AreEqual(0, bin.Ancestors.Count());
+            Assert.AreEqual(0, bin.ChildNodes.Count());
+            Assert.AreEqual(0, bin.Descendants.Count());
+            Assert.AreEqual(0, bin.Height);
+            Assert.AreEqual(0, bin.Depth);
+            Assert.IsNull(bin.Parent);
+        }
+
+        [Test]
+        public void RemoveNodeByCallingRemove()
+        {
+            var building = new Space { Name = "Science Building", SquareFeet = 30000 };
+            var storage = building.ChildNodes.Add(new Space { Name = "Storage", SquareFeet = 1200 });
+            var bin = storage.ChildNodes.Add(new Space { Name = "Bin", SquareFeet = 4 });
+
+            storage.ChildNodes.Remove(bin);
+
+            Assert.AreEqual(0, building.Ancestors.Count());
+            Assert.AreEqual(1, building.ChildNodes.Count());
+            Assert.AreEqual(1, building.Descendants.Count());
+            Assert.AreEqual(1, building.Height);
+            Assert.AreEqual(0, building.Depth);
+            Assert.IsNull(building.Parent);
+
+            Assert.AreEqual(1, storage.Ancestors.Count());
+            Assert.AreEqual(0, storage.ChildNodes.Count());
+            Assert.AreEqual(0, storage.Descendants.Count());
+            Assert.AreEqual(0, storage.Height);
+            Assert.AreEqual(1, storage.Depth);
+            Assert.AreSame(storage.Parent, building);
+
+            Assert.AreEqual(0, bin.Ancestors.Count());
+            Assert.AreEqual(0, bin.ChildNodes.Count());
+            Assert.AreEqual(0, bin.Descendants.Count());
+            Assert.AreEqual(0, bin.Height);
+            Assert.AreEqual(0, bin.Depth);
+            Assert.IsNull(bin.Parent);
+        }
+
+        [Test]
         public void ComplexInitialState()
         {
             var property = new Space { Name = "Industrial Property", SquareFeet = 150000 };

@@ -8,7 +8,7 @@ namespace HighEnergy.Collections
     {
         ITreeNode<T> Root { get; }
 
-        ITreeNode<T> Parent { get; }
+        ITreeNode<T> Parent { get; set; }
         void SetParent(ITreeNode<T> Node, bool UpdateChildNodes = true);
 
         T Value { get; set; }

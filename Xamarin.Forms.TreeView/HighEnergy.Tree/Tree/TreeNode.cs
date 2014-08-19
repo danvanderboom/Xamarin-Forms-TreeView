@@ -20,12 +20,7 @@ namespace HighEnergy.Collections
         {
             // call property setters to trigger setup and event notifications
             this.Value = Value;
-
-            _Parent = 
-                Value == null ? null 
-                : Value is ITreeNode<T> ? (Value as ITreeNode<T>).Parent
-                : null;
-
+            _Parent = null;
             ChildNodes = new TreeNodeList<T>(this);
         }
 
@@ -46,6 +41,7 @@ namespace HighEnergy.Collections
         public ITreeNode<T> Parent
         {
             get { return _Parent; }
+            set { SetParent(value, true); }
         }
 
         public void SetParent(ITreeNode<T> node, bool updateChildNodes = true)
@@ -66,7 +62,7 @@ namespace HighEnergy.Collections
             _Parent = node;
 
             // add this node to its new parent's children
-            if (updateChildNodes)
+            if (_Parent != null && updateChildNodes)
                 _Parent.ChildNodes.Add(this, updateParent: false);
 
             // signal the old parent that it has lost this child
@@ -294,11 +290,7 @@ namespace HighEnergy.Collections
 
         public override string ToString()
         {
-            string Description = string.Empty;
-            if (Value != null)
-                Description = "[" + Value + "] ";
-
-            return Description + "Depth=" + Depth + ", Height=" + Height + ", Children=" + ChildNodes.Count;
+            return "Depth=" + Depth + ", Height=" + Height + ", Children=" + ChildNodes.Count;
         }
     }
 }

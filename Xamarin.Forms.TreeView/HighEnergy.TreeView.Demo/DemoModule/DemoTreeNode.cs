@@ -54,7 +54,7 @@ namespace HighEnergy.TreeView.Demo
 
         public override string ToString()
         {
-            return string.Format("[DemoTreeNode: Title={3}, Score={4}, IsExpanded={1}, IndentWidth={2}]", ToggleIsExpandedCommand, IsExpanded, IndentWidth, Title, Score);
+            return string.Format("DemoTreeNode: Title={3}, Score={4}, IsExpanded={1}, IndentWidth={2} " + base.ToString(), ToggleIsExpandedCommand, IsExpanded, IndentWidth, Title, Score);
         }
     }
 }
