@@ -8,7 +8,7 @@ using HighEnergy.Collections;
 namespace HighEnergy.Tree.Test
 {
     [TestFixture]
-    public class Test
+    public class TreeTests
     {
         [Test]
         public void SingleNode()
@@ -81,6 +81,45 @@ namespace HighEnergy.Tree.Test
             Assert.AreEqual(0, bin.Height);
             Assert.AreEqual(0, bin.Depth);
             Assert.IsNull(bin.Parent);
+        }
+
+        [Test]
+        public void SwapNodeParent()
+        {
+            var building = new Space { Name = "Science Building", SquareFeet = 30000 };
+            var storage = building.ChildNodes.Add(new Space { Name = "Storage", SquareFeet = 1200 });
+            var kitchen = building.ChildNodes.Add(new Space { Name = "Kitchen", SquareFeet = 1800 });
+            var bin = storage.ChildNodes.Add(new Space { Name = "Bin", SquareFeet = 4 });
+
+            bin.Parent = kitchen;
+
+            Assert.AreEqual(0, building.Ancestors.Count());
+            Assert.AreEqual(2, building.ChildNodes.Count());
+            Assert.AreEqual(3, building.Descendants.Count());
+            Assert.AreEqual(2, building.Height);
+            Assert.AreEqual(0, building.Depth);
+            Assert.IsNull(building.Parent);
+
+            Assert.AreEqual(1, storage.Ancestors.Count());
+            Assert.AreEqual(0, storage.ChildNodes.Count());
+            Assert.AreEqual(0, storage.Descendants.Count());
+            Assert.AreEqual(0, storage.Height);
+            Assert.AreEqual(1, storage.Depth);
+            Assert.AreSame(storage.Parent, building);
+
+            Assert.AreEqual(1, kitchen.Ancestors.Count());
+            Assert.AreEqual(1, kitchen.ChildNodes.Count());
+            Assert.AreEqual(1, kitchen.Descendants.Count());
+            Assert.AreEqual(1, kitchen.Height);
+            Assert.AreEqual(1, kitchen.Depth);
+            Assert.AreSame(kitchen.Parent, building);
+
+            Assert.AreEqual(2, bin.Ancestors.Count());
+            Assert.AreEqual(0, bin.ChildNodes.Count());
+            Assert.AreEqual(0, bin.Descendants.Count());
+            Assert.AreEqual(0, bin.Height);
+            Assert.AreEqual(2, bin.Depth);
+            Assert.AreSame(bin.Parent, kitchen);
         }
 
         [Test]
