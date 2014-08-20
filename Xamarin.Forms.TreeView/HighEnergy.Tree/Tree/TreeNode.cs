@@ -13,7 +13,7 @@ namespace HighEnergy.Collections
         {
             // call property setters to trigger setup and event notifications
             _Parent = null;
-            ChildNodes = new TreeNodeList<T>(this);
+            _ChildNodes = new TreeNodeList<T>(this);
         }
 
         public TreeNode(T Value)
@@ -21,7 +21,7 @@ namespace HighEnergy.Collections
             // call property setters to trigger setup and event notifications
             this.Value = Value;
             _Parent = null;
-            ChildNodes = new TreeNodeList<T>(this);
+            _ChildNodes = new TreeNodeList<T>(this);
         }
 
         public TreeNode(T Value, TreeNode<T> Parent)
@@ -29,7 +29,7 @@ namespace HighEnergy.Collections
             // call property setters to trigger setup and event notifications
             this.Value = Value;
             _Parent = Parent;
-            ChildNodes = new TreeNodeList<T>(this);
+            _ChildNodes = new TreeNodeList<T>(this);
         }
 
         public ITreeNode ParentNode 
@@ -55,15 +55,15 @@ namespace HighEnergy.Collections
 
             // if oldParent isn't null
             // remove this node from its newly ex-parent's children
-            if (oldParent != null && oldParent.ChildNodes.Contains(this))
-                oldParent.ChildNodes.Remove(this, updateParent: false);
+            if (oldParent != null && oldParent.Children.Contains(this))
+                oldParent.Children.Remove(this, updateParent: false);
 
             // update the backing field
             _Parent = node;
 
             // add this node to its new parent's children
             if (_Parent != null && updateChildNodes)
-                _Parent.ChildNodes.Add(this, updateParent: false);
+                _Parent.Children.Add(this, updateParent: false);
 
             // signal the old parent that it has lost this child
             if (oldParent != null)
@@ -98,38 +98,17 @@ namespace HighEnergy.Collections
         }
 
         private TreeNodeList<T> _ChildNodes;
-        public TreeNodeList<T> ChildNodes
+        public TreeNodeList<T> Children
         {
             get { return _ChildNodes; }
-            private set
-            {
-                if (value == _ChildNodes)
-                    return;
-
-                if (_ChildNodes != null)
-                    _ChildNodes.PropertyChanged -= HandleChildNodeCountChange;
-
-                _ChildNodes = value;
-
-                if (_ChildNodes != null)
-                    _ChildNodes.PropertyChanged += HandleChildNodeCountChange;
-
-                OnPropertyChanged("ChildNodes");
-            }
-        }
-
-        void HandleChildNodeCountChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Count")
-                OnPropertyChanged("Count");
         }
 
         // non-generic iterator for interface-based support
-        public IEnumerable<ITreeNode> Children
+        public IEnumerable<ITreeNode> ChildNodes
         {
             get
             {
-                foreach (ITreeNode node in ChildNodes)
+                foreach (ITreeNode node in Children)
                     yield return node;
 
                 yield break;
@@ -140,7 +119,7 @@ namespace HighEnergy.Collections
         {
             get
             {
-                foreach (ITreeNode node in Children)
+                foreach (ITreeNode node in ChildNodes)
                 {
                     yield return node;
 
@@ -183,7 +162,7 @@ namespace HighEnergy.Collections
 
         public virtual void OnAncestorChanged(NodeChangeType changeType, ITreeNode node)
         {
-            foreach (ITreeNode<T> child in ChildNodes)
+            foreach (ITreeNode<T> child in Children)
                 child.OnAncestorChanged(changeType, node);
         }
 
@@ -196,7 +175,7 @@ namespace HighEnergy.Collections
         // [recurse up] descending aggregate property
         public int Height
         {
-            get { return ChildNodes.Count == 0 ? 0 : ChildNodes.Max(n => n.Height) + 1; }
+            get { return Children.Count == 0 ? 0 : Children.Max(n => n.Height) + 1; }
         }
 
         // [recurse down] descending-broadcasting event
@@ -204,7 +183,7 @@ namespace HighEnergy.Collections
         {
             OnPropertyChanged("Height");
 
-            foreach (ITreeNode<T> child in ChildNodes)
+            foreach (ITreeNode<T> child in Children)
                 child.OnHeightChanged();
         }
 
@@ -266,13 +245,13 @@ namespace HighEnergy.Collections
             if (Value is IDisposable)
             {
                 if (DisposeTraversal == UpDownTraversalType.BottomUp)
-                    foreach (TreeNode<T> node in ChildNodes)
+                    foreach (TreeNode<T> node in Children)
                         node.Dispose();
 
                 (Value as IDisposable).Dispose();
 
                 if (DisposeTraversal == UpDownTraversalType.TopDown)
-                    foreach (TreeNode<T> node in ChildNodes)
+                    foreach (TreeNode<T> node in Children)
                         node.Dispose();
             }
 
@@ -295,7 +274,7 @@ namespace HighEnergy.Collections
 
         public override string ToString()
         {
-            return "Depth=" + Depth + ", Height=" + Height + ", Children=" + ChildNodes.Count;
+            return "Depth=" + Depth + ", Height=" + Height + ", Children=" + Children.Count;
         }
     }
 }

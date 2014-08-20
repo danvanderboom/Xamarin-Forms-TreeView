@@ -172,7 +172,7 @@ namespace HighEnergy.Controls
 
             var nodeViewsToRemove = new List<TreeNodeView>();
 
-            var bindingChildList = new List<ITreeNode>(bindingContextNode != null ? bindingContextNode.Children.OfType<ITreeNode>() : null);
+            var bindingChildList = new List<ITreeNode>(bindingContextNode != null ? bindingContextNode.ChildNodes : null);
 
             // which ChildTreeNodeViews are in the visual tree... ?
             foreach (TreeNodeView nodeView in ChildTreeNodeViews)
@@ -200,7 +200,7 @@ namespace HighEnergy.Controls
             {
                 var nodeViewsToAdd = new Dictionary<TreeNodeView,ITreeNode>();
 
-                foreach (ITreeNode node in bindingContextNode.Children)
+                foreach (ITreeNode node in bindingContextNode.ChildNodes)
                 {
                     if (!ChildTreeNodeViews.Any(nodeView => nodeView.BindingContext == node))
                     {

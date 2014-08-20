@@ -13,7 +13,7 @@ namespace HighEnergy.Collections
 
         T Value { get; set; }
 
-        TreeNodeList<T> ChildNodes { get; }
+        TreeNodeList<T> Children { get; }
     }
 
     public interface ITreeNode : INotifyPropertyChanged
@@ -25,7 +25,7 @@ namespace HighEnergy.Collections
         ITreeNode ParentNode { get; }
 
         // direct descendants
-        IEnumerable<ITreeNode> Children { get; }
+        IEnumerable<ITreeNode> ChildNodes { get; }
 
         // Children, Children[i].Children, ...
         IEnumerable<ITreeNode> Descendants { get; }
