@@ -67,15 +67,20 @@ namespace HighEnergy.Collections
 
             // signal the old parent that it has lost this child
             if (oldParent != null)
-                oldParent.OnDescendantChanged(NodeChangeType.ChildRemoved, this);
+                oldParent.OnDescendantChanged(NodeChangeType.NodeRemoved, this);
 
             if (oldDepth != Depth)
                 OnDepthChanged();
 
             // if this operation has changed the height of any parent, initiate the bubble-up height changed event
             var newParentHeight = Parent != null ? Parent.Height : 0;
-            if (Parent != null && newParentHeight != oldParentHeight)
-                Parent.OnHeightChanged();
+            if (Parent != null)
+            {
+                if (newParentHeight != oldParentHeight)
+                    Parent.OnHeightChanged();
+                
+                Parent.OnDescendantChanged(NodeChangeType.NodeAdded, this);
+            }
 
             OnParentChanged(oldParent, Parent);
         }

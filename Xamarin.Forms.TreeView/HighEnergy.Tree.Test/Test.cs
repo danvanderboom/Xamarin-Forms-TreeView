@@ -182,8 +182,6 @@ namespace HighEnergy.Tree.Test
                 SquareFeet = 150000
             };
 
-            Console.WriteLine("first Space ok");
-
             Assert.AreEqual(0, property.Depth);
             Assert.AreEqual(0, property.Height);
 
@@ -193,8 +191,6 @@ namespace HighEnergy.Tree.Test
                     Name = "Building A",
                     SquareFeet = 900
                 });
-
-            Console.WriteLine("buildingA");
 
             Assert.AreEqual(0, property.Depth);
             Assert.AreEqual(1, property.Height);
@@ -213,18 +209,6 @@ namespace HighEnergy.Tree.Test
 
             Assert.AreEqual(0, buildingA.Depth);
             Assert.AreEqual(0, buildingA.Height);
-        }
-
-        [Test]
-        public void TestNodeChangeType()
-        {
-            NodeChangeType change = NodeChangeType.AncestorInserted | NodeChangeType.NewRoot;
-
-            Assert.IsTrue((change & NodeChangeType.AncestorInserted) == NodeChangeType.AncestorInserted);
-            Assert.IsTrue((change & NodeChangeType.NewRoot) == NodeChangeType.NewRoot);
-
-            Assert.IsFalse((change & NodeChangeType.ChildRemoved) == NodeChangeType.ChildRemoved);
-            Assert.IsFalse((change & NodeChangeType.DescendantRemoved) == NodeChangeType.DescendantRemoved);
         }
     }
 }

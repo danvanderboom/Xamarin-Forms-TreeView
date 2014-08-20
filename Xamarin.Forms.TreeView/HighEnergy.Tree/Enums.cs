@@ -14,24 +14,15 @@ namespace HighEnergy.Collections
         BreadthFirst
     }
 
-    // TODO: bubble or tunnel each of the following event types
-    [Flags]
     public enum NodeChangeType
     {
-        NewRoot = 1, // NewParent at the top
-        AncestorInserted = 2,
-        AncestorNulled = 4, // AncestorNulled
-        ParentInserted = 8,
-        ParentNulled = 16,
-        ChildAdded = 32,
-        ChildRemoved = 64,
-        DescendantAdded = 128,
-        DescendantRemoved = 256
+        NodeAdded,
+        NodeRemoved
     }
 
     public enum NodeRelationType
     {
-        Ancestor, // excludes direct Parent
+        Ancestor,
         Parent,
         Self,
         Child,

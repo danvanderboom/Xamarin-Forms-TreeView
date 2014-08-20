@@ -296,7 +296,7 @@ namespace HighEnergy.Controls
         {
             InitializeComponent();
 
-            Debug.WriteLine("NodeCreationFactory: new TreeNodeView");
+            Debug.WriteLine("new TreeNodeView");
         }
     }
 }
