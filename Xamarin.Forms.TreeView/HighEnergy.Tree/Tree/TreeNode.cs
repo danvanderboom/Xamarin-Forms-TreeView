@@ -73,9 +73,9 @@ namespace HighEnergy.Collections
                 OnDepthChanged();
 
             // if this operation has changed the height of any parent, initiate the bubble-up height changed event
-            var newParentHeight = Parent != null ? Parent.Height : 0;
             if (Parent != null)
             {
+                var newParentHeight = Parent != null ? Parent.Height : 0;
                 if (newParentHeight != oldParentHeight)
                     Parent.OnHeightChanged();
                 
@@ -103,7 +103,7 @@ namespace HighEnergy.Collections
             get { return _ChildNodes; }
         }
 
-        // non-generic iterator for interface-based support
+        // non-generic iterator for interface-based support (From TreeNodeView, for example)
         public IEnumerable<ITreeNode> ChildNodes
         {
             get
@@ -160,14 +160,22 @@ namespace HighEnergy.Collections
             }
         }
 
+        public event Action<NodeChangeType, ITreeNode> AncestorChanged;
         public virtual void OnAncestorChanged(NodeChangeType changeType, ITreeNode node)
         {
+            if (AncestorChanged != null)
+                AncestorChanged(changeType, node);
+
             foreach (ITreeNode<T> child in Children)
                 child.OnAncestorChanged(changeType, node);
         }
 
+        public event Action<NodeChangeType, ITreeNode> DescendantChanged;
         public virtual void OnDescendantChanged(NodeChangeType changeType, ITreeNode node)
         {
+            if (DescendantChanged != null)
+                DescendantChanged(changeType, node);
+
             if (Parent != null)
                 Parent.OnDescendantChanged(changeType, node);
         }

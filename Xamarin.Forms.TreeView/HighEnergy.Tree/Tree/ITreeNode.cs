@@ -18,10 +18,9 @@ namespace HighEnergy.Collections
 
     public interface ITreeNode : INotifyPropertyChanged
     {
-        // Parent, Parent.Parent, ...
+        // all nodes along path toward root: Parent, Parent.Parent, Parent.Parent.Parent, ...
         IEnumerable<ITreeNode> Ancestors { get; }
 
-        // direct Parent
         ITreeNode ParentNode { get; }
 
         // direct descendants

@@ -9,6 +9,8 @@ namespace HighEnergy.Tree.Test
         public string Name { get; set; }
         public double SquareFeet { get; set; }
 
+        public event Action<NodeChangeType, ITreeNode> AncestorChanged;
+
         public Space() : base() { }
 
         public Space(Space parent) : base(parent) { }

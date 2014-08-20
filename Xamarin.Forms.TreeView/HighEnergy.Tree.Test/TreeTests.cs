@@ -24,6 +24,30 @@ namespace HighEnergy.Tree.Test
         }
 
         [Test]
+        public void DescendantChangedEvent()
+        {
+            var eventList = new List<string>();
+
+            var building = new Space { Name = "Building", SquareFeet = 30000 };
+            building.DescendantChanged += (changeType, node) => eventList.Add("Building: " + changeType + " " + (node as Space).Name);
+            var storage = (Space)building.Children.Add(new Space { Name = "Storage", SquareFeet = 1200 });
+            storage.DescendantChanged += (changeType, node) => eventList.Add("Storage: " + changeType + " " + (node as Space).Name);
+            var bin = (Space)storage.Children.Add(new Space { Name = "Bin", SquareFeet = 4 });
+            bin.DescendantChanged += (changeType, node) => eventList.Add("Bin: " + changeType + " " + (node as Space).Name);
+            var envelope = (Space)bin.Children.Add(new Space { Name = "Envelope", SquareFeet = .001 });
+            envelope.DescendantChanged += (changeType, node) => eventList.Add("Envelope: " + changeType + " " + (node as Space).Name);
+
+            Assert.AreEqual(
+                new List<string> 
+                {
+                    "Building: NodeAdded Storage", 
+                    "Storage: NodeAdded Bin", "Building: NodeAdded Bin",
+                    "Bin: NodeAdded Envelope", "Storage: NodeAdded Envelope", "Building: NodeAdded Envelope"
+                },
+                eventList);
+        }
+
+        [Test]
         public void AddChildNodes()
         {
             var building = new Space { Name = "Science Building", SquareFeet = 30000 };
@@ -160,17 +184,15 @@ namespace HighEnergy.Tree.Test
         public void ComplexInitialState()
         {
             var property = new Space { Name = "Industrial Property", SquareFeet = 150000 };
-
-            var buildingA = property.Children.Add(new Space { Name = "Building A", SquareFeet = 50000 });
-            var laundryRoom = buildingA.Children.Add(new Space { Name = "Laundry Room", SquareFeet = 300 });
-            var bathroomA = buildingA.Children.Add(new Space { Name = "Bathroom", SquareFeet = 150 });
-            var storageA = buildingA.Children.Add(new Space { Name = "Storage", SquareFeet = 450 });
-
-            var buildingB = property.Children.Add(new Space { Name = "Building B", SquareFeet = 50000 });
-            var bathroomB = buildingB.Children.Add(new Space { Name = "Bathroom", SquareFeet = 50000 });
-            var storageB = buildingB.Children.Add(new Space { Name = "Storage", SquareFeet = 500 });
-            var meetingRoom = buildingB.Children.Add(new Space { Name = "Meeting Room", SquareFeet = 1600 });
-            var meetingRoomCloset = meetingRoom.Children.Add(new Space { Name = "Meeting Room Closet", SquareFeet = 150 });
+            var buildingA = (Space)property.Children.Add(new Space { Name = "Building A", SquareFeet = 50000 });
+            var laundryRoom = (Space)buildingA.Children.Add(new Space { Name = "Laundry Room", SquareFeet = 300 });
+            var bathroomA = (Space)buildingA.Children.Add(new Space { Name = "Bathroom", SquareFeet = 150 });
+            var storageA = (Space)buildingA.Children.Add(new Space { Name = "Storage", SquareFeet = 450 });
+            var buildingB = (Space)property.Children.Add(new Space { Name = "Building B", SquareFeet = 50000 });
+            var bathroomB = (Space)buildingB.Children.Add(new Space { Name = "Bathroom", SquareFeet = 50000 });
+            var storageB = (Space)buildingB.Children.Add(new Space { Name = "Storage", SquareFeet = 500 });
+            var meetingRoom = (Space)buildingB.Children.Add(new Space { Name = "Meeting Room", SquareFeet = 1600 });
+            var meetingRoomCloset = (Space)meetingRoom.Children.Add(new Space { Name = "Meeting Room Closet", SquareFeet = 150 });
 
             Assert.AreEqual(0, property.Ancestors.Count());
             Assert.AreEqual(2, property.Children.Count());
