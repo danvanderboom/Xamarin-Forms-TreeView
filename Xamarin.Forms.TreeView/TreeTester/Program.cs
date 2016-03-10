@@ -17,8 +17,8 @@ namespace TreeTester
         public static void Main(string[] args)
         {
             var property = new Space { Name = "Industrial Property", SquareFeet = 150000 };
-            var buildingA = property.ChildNodes.Add(new Space { Name = "Building A", SquareFeet = 50000 });
-            var laundryRoom = buildingA.ChildNodes.Add(new Space { Name = "Laundry Room", SquareFeet = 300 });
+            var buildingA = property.Children.Add(new Space { Name = "Building A", SquareFeet = 50000 });
+            var laundryRoom = buildingA.Children.Add(new Space { Name = "Laundry Room", SquareFeet = 300 });
 
 //            var bathroomA = buildingA.ChildNodes.Add(new Space { Name = "Bathroom", SquareFeet = 150 });
 //            var storageA = buildingA.ChildNodes.Add(new Space { Name = "Storage", SquareFeet = 450 });
