@@ -68,13 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DemoPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Images\CubesBrightColors.png">
       <LogicalName>CubesBrightColors.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="DemoModule\DemoTreeCardView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

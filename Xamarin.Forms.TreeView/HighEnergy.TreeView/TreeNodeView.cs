@@ -82,7 +82,7 @@ namespace HighEnergy.Controls
             if (node == null)
                 throw new InvalidOperationException("TreeNodeView currently only supports TreeNode-derived data binding sources.");
 
-            base.OnBindingContextChanged();
+			base.OnBindingContextChanged();
 
             // clear out any existing child nodes - the new data source replaces them
             // make sure we don't do this if BindingContext == null
@@ -223,10 +223,12 @@ namespace HighEnergy.Controls
                     {
                         // only set BindingContext after the node has Parent != null
                         nodeView.Key.BindingContext = nodeView.Value;
+						nodeView.Value.ExpandAction = () => nodeView.Key.BuildVisualChildren();
+						nodeView.Key.ChildrenStackLayout.IsVisible = nodeView.Key.IsExpanded;
 
                         ChildrenStackLayout.Children.Add(nodeView.Key);
 
-                        ChildrenStackLayout.SetBinding(StackLayout.IsVisibleProperty, new Binding("IsExpanded", BindingMode.OneWay));
+						ChildrenStackLayout.SetBinding(StackLayout.IsVisibleProperty, new Binding("IsExpanded", BindingMode.TwoWay));
 
                         // TODO: make sure to unsubscribe elsewhere
                         nodeView.Value.PropertyChanged += HandleListCountChanged;
@@ -242,19 +244,18 @@ namespace HighEnergy.Controls
 
         void HandleListCountChanged(object sender, PropertyChangedEventArgs e)
         {
-            Device.BeginInvokeOnMainThread(
-                () =>
-                {
-                    if (e.PropertyName == "Count")
+			Device.BeginInvokeOnMainThread(() =>
+			    {
+					if (e.PropertyName == "Count")
                     {
-                        var nodeView = ChildTreeNodeViews.Where(nv => nv.BindingContext == sender).FirstOrDefault();
+					    var nodeView = ChildTreeNodeViews.Where(nv => nv.BindingContext == sender).FirstOrDefault();
                         if (nodeView != null)
                             nodeView.BuildVisualChildren();
                     }
-                });
+				});
         }
 
-        public void InitializeComponent()
+		public void InitializeComponent()
         {
             IsExpanded = true;
 
