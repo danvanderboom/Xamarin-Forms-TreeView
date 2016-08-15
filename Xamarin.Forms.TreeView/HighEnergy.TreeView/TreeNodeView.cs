@@ -64,7 +64,9 @@ namespace HighEnergy.Controls
 
         protected void DetachVisualChildren()
         {
-            foreach (TreeNodeView nodeView in ChildTreeNodeViews)
+			var views = ChildrenStackLayout.Children.OfType<TreeNodeView>().ToList();
+
+			foreach (TreeNodeView nodeView in views)
             {
                 ChildrenStackLayout.Children.Remove(nodeView);
                 nodeView.ParentTreeNodeView = null;
@@ -77,14 +79,14 @@ namespace HighEnergy.Controls
             // and during startup, this node will inherit its BindingContext from its Parent - ignore this
             if (BindingContext == null || (Parent != null && BindingContext == Parent.BindingContext))
                 return;
-
+			
             var node = BindingContext as ITreeNode;
             if (node == null)
                 throw new InvalidOperationException("TreeNodeView currently only supports TreeNode-derived data binding sources.");
 
 			base.OnBindingContextChanged();
 
-            // clear out any existing child nodes - the new data source replaces them
+			// clear out any existing child nodes - the new data source replaces them
             // make sure we don't do this if BindingContext == null
             DetachVisualChildren();
 
@@ -225,8 +227,7 @@ namespace HighEnergy.Controls
                         nodeView.Key.BindingContext = nodeView.Value;
 						nodeView.Value.ExpandAction = () => nodeView.Key.BuildVisualChildren();
 						nodeView.Key.ChildrenStackLayout.IsVisible = nodeView.Key.IsExpanded;
-
-                        ChildrenStackLayout.Children.Add(nodeView.Key);
+						ChildrenStackLayout.Children.Add(nodeView.Key);
 
 						ChildrenStackLayout.SetBinding(StackLayout.IsVisibleProperty, new Binding("IsExpanded", BindingMode.TwoWay));
 
