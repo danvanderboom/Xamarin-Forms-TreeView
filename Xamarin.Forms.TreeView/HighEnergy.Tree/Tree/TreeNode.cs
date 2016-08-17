@@ -3,6 +3,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace HighEnergy.Collections
 {
@@ -244,7 +245,9 @@ namespace HighEnergy.Collections
             get { return _IsDisposed; }
         }
 
-        public virtual void Dispose()
+		public Action ExpandAction { get; set; }
+
+		public virtual void Dispose()
         {
             CheckDisposed();
             OnDisposing();
