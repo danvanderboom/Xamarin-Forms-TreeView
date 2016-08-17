@@ -4,6 +4,7 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 namespace HighEnergy.TreeView.Demo
 {
@@ -11,7 +12,7 @@ namespace HighEnergy.TreeView.Demo
     // User Interface of the application, as well as listening (and optionally responding) to
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : UIApplicationDelegate
+    public partial class AppDelegate : FormsApplicationDelegate
     {
         UIWindow window;
 
@@ -19,8 +20,8 @@ namespace HighEnergy.TreeView.Demo
         {
             window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-            App.Init(typeof(App).Assembly);
             Forms.Init();
+            LoadApplication(new App());
 
             UINavigationBar.Appearance.BackgroundColor = UIColor.FromRGBA(0, 0, 0, 0);
             UINavigationBar.Appearance.TintColor = UIColor.Blue;

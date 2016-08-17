@@ -10,22 +10,14 @@ using HighEnergy.TreeView.Demo;
 namespace HighEnergy.TreeView.Demo.Android
 {
     [Activity (Label = "HighEnergy.TreeView for Xamarin Forms", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : Xamarin.Forms.Platform.Android.AndroidActivity
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         protected override void OnCreate (Bundle bundle)
         {
             base.OnCreate (bundle);
 
-            App.Init(typeof(App).Assembly);
             Forms.Init(this, bundle);
-
-            // Set our view from the "main" layout resource
-            SetPage(BuildView());
-        }
-
-        static Page BuildView()
-        {
-            return new DemoPage();
+            LoadApplication(new App());
         }
     }
 }
