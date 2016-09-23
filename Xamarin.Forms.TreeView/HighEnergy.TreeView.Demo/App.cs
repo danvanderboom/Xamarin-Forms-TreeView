@@ -10,23 +10,11 @@ using HighEnergy.Collections;
 
 namespace HighEnergy.TreeView.Demo
 {
-    public static class App
+    public class App : Application
     {
-        public static Assembly _reflectionAssembly;
-
-        internal static readonly MethodInfo GetDependency;
-
-        static App()
+        public App()
         {
-            GetDependency = typeof(DependencyService)
-                .GetRuntimeMethods()
-                .Single((method)=>
-                    method.Name.Equals("Get"));
-        }
-
-        public static void Init(Assembly assembly)
-        {
-            System.Threading.Interlocked.CompareExchange(ref _reflectionAssembly, assembly, null);
+            MainPage = new DemoPage();
         }
     }
 }

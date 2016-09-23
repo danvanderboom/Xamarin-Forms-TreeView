@@ -1,17 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 namespace HighEnergy.TreeView.Demo
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to
     // application events from iOS.
-    [Register("AppDelegate")]
-    public partial class AppDelegate : UIApplicationDelegate
+    [Foundation.Register("AppDelegate")]
+    public partial class AppDelegate : FormsApplicationDelegate
     {
         UIWindow window;
 
@@ -19,10 +20,10 @@ namespace HighEnergy.TreeView.Demo
         {
             window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-            App.Init(typeof(App).Assembly);
             Forms.Init();
+            LoadApplication(new App());
 
-            UINavigationBar.Appearance.BackgroundColor = UIColor.FromRGBA(0, 0, 0, 0);
+            UINavigationBar.Appearance.BackgroundColor = UIColor.FromRGBA((nfloat)0, (nfloat)0, (nfloat)0, (nfloat)0);
             UINavigationBar.Appearance.TintColor = UIColor.Blue;
             UINavigationBar.Appearance.BarTintColor = UIColor.White;
             UINavigationBar.Appearance.SetTitleTextAttributes(

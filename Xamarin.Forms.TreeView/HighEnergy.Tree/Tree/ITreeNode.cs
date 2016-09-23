@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Windows.Input;
+using System;
 
 namespace HighEnergy.Collections
 {
@@ -18,6 +20,7 @@ namespace HighEnergy.Collections
 
     public interface ITreeNode : INotifyPropertyChanged
     {
+		Action ExpandAction { get; set;}
         // all nodes along path toward root: Parent, Parent.Parent, Parent.Parent.Parent, ...
         IEnumerable<ITreeNode> Ancestors { get; }
 
